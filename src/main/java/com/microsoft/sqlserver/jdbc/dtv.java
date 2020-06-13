@@ -3174,6 +3174,19 @@ final class TypeInfo implements Serializable {
             assert null != typeInfo.ssType;
             assert null != typeInfo.ssLenType;
 
+            //Force connection charset
+            Charset customCharset=tdsReader.getConnection().getCharset();
+            if (customCharset!=null) {
+                switch (typeInfo.ssType) {
+                    case CHAR:
+                    case VARCHAR:
+                    case VARCHARMAX:
+                    case TEXT:
+                        typeInfo.charset = customCharset;
+                    default:
+                }
+            }
+
             return typeInfo;
         }
     }

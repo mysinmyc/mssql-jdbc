@@ -14,6 +14,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.nio.charset.Charset;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -1981,6 +1982,17 @@ public class SQLServerConnection implements ISQLServerConnection, java.io.Serial
                                                                                               .getProperty(sPropKey)
                                                                                       : null;
 
+            sPropKey=SQLServerDriverStringProperty.CHARSET.toString();
+            String charsetName = activeConnectionProperties.getProperty(sPropKey, null);
+            if (charsetName !=null && ! charsetName.isBlank()) {
+                try {
+                    charset = Charset.forName(charsetName);
+                }catch (Exception e) {
+                    MessageFormat form = new MessageFormat(SQLServerException.getErrString("R_invalidCharset"));
+                    Object[] msgArgs = {sPropKey,charsetName};
+                    SQLServerException.makeFromDriverError(this, this, form.format(msgArgs), null, false);
+                }
+            }
             sPropKey = SQLServerDriverIntProperty.LOCK_TIMEOUT.toString();
             int defaultLockTimeOut = SQLServerDriverIntProperty.LOCK_TIMEOUT.getDefaultValue();
             nLockTimeout = defaultLockTimeOut; // Wait forever
@@ -6498,6 +6510,16 @@ public class SQLServerConnection implements ISQLServerConnection, java.io.Serial
 
     String getServerName() {
         return this.trustedServerNameAE;
+    }
+
+    private Charset charset;
+    
+    /**
+     * Check if a custom Charset is enforced at connection level
+     * @return custom Charset, otherwise null
+     */
+    Charset getCharset() {
+        return charset;
     }
 }
 

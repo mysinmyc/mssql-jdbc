@@ -647,5 +647,7 @@ public final class SQLServerResource extends ListResourceBundle {
             {"R_clientCertError", "Reading client certificate failed. Please verify the location of the certificate."},
             {"R_unassignableError", "The class specified by the {0} property must be assignable to {1}."},
             {"R_InvalidCSVQuotes",
-                    "Failed to parse the CSV file, verify that the fields are correctly enclosed in double quotes."},};
+                    "Failed to parse the CSV file, verify that the fields are correctly enclosed in double quotes."},
+            {"R_charsetPropertyDescription", "Force chartset"},
+            {"R_invalidCharset","Charset {1} specified by the {0} property is not valid."},};
 };

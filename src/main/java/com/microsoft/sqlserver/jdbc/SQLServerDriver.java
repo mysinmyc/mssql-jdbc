@@ -366,7 +366,8 @@ enum SQLServerDriverStringProperty {
     KEY_STORE_PRINCIPAL_ID("keyStorePrincipalId", ""),
     CLIENT_CERTIFICATE("clientCertificate", ""),
     CLIENT_KEY("clientKey", ""),
-    CLIENT_KEY_PASSWORD("clientKeyPassword", "");
+    CLIENT_KEY_PASSWORD("clientKeyPassword", ""),
+    CHARSET("charset","");
 
     private final String name;
     private final String defaultValue;
@@ -634,7 +635,9 @@ public final class SQLServerDriver implements java.sql.Driver {
                     SQLServerDriverBooleanProperty.SEND_TEMPORAL_DATATYPES_AS_STRING_FOR_BULK_COPY.toString(),
                     Boolean.toString(SQLServerDriverBooleanProperty.SEND_TEMPORAL_DATATYPES_AS_STRING_FOR_BULK_COPY
                             .getDefaultValue()),
-                    false, TRUE_FALSE),};
+                    false, TRUE_FALSE),
+            new SQLServerDriverPropertyInfo(SQLServerDriverStringProperty.CHARSET.toString(), 
+                    SQLServerDriverStringProperty.CHARSET.getDefaultValue(),false,null)};
 
     /**
      * Properties that can only be set by using Properties. Cannot set in connection string
